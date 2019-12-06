@@ -1,0 +1,84 @@
+package ${package}.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.apache.commons.lang3.StringUtils;
+import java.util.List;
+import java.util.Objects;
+
+import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
+
+import ${package}.service.${className}Service;
+import ${package}.entity.${className};
+
+import com.unicom.park.model.Result;
+import com.unicom.park.util.PageData;
+import com.unicom.park.exceptions.ParkException;
+
+/**
+ * @Copyright: ${company} <br/>
+ * @Desc:  <br/>
+ * @Date: ${datetime} <br/>
+ * @Author: ${author} <br/>
+ */
+
+@RestController
+@RequestMapping("/${classname}")
+@Api(tags = "${classname}接口 , ${author}")
+@Slf4j
+public class ${className}Controller {
+
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+    @ApiOperation(value = "新增接口")
+    @PostMapping("/add")
+    public Result add(@Validated @RequestBody @ApiParam ${className} ${classname}){
+        log.info("新增${classname} ${classname}={}",${classname});
+        Long id = ${classname}Service.add(${classname});
+        return Result.success(id);
+    }
+
+    @ApiOperation(value = "更新接口")
+    @PutMapping("/update")
+    public Result updateById(@Validated @RequestBody @ApiParam ${className} ${classname}){
+        log.info("更新${classname} ${classname}={}",${classname});
+        if(Objects.isNull(${classname}.getId())){
+            throw new ParkException("缺少id");
+        }
+        int result = ${classname}Service.update(${classname});
+        return Result.success(result);
+    }
+
+    @ApiOperation(value = "删除接口")
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable Long id){
+        log.info("删除${classname} id={}",id);
+        int result = ${classname}Service.delete(id);
+        return Result.success(result);
+    }
+
+    @ApiOperation(value = "详情")
+    @GetMapping("/detail/{id}")
+    public Result detail(@PathVariable Long id){
+        log.info("根据id获取详情 id={}",id);
+        ${className} ${classname} = ${classname}Service.detail(id);
+        return Result.success(${classname});
+    }
+
+    @ApiOperation(value = "分页查询")
+    @GetMapping("/queryByPage")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页号", defaultValue = "1", dataType = "int", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "大小", defaultValue = "10", dataType = "int", required = true)
+    })
+    public Result queryByPage(@RequestParam(defaultValue = "1") Integer pageNum, @RequestParam(defaultValue = "10") Integer pageSize,
+                                @RequestParam JSONObject params){
+        log.info("分页查询 params={} pageNum={} pageSize={}", params, pageNum, pageSize);
+        PageData pageData = ${classname}Service.queryByPage(params,pageNum,pageSize);
+        return Result.success(pageData);
+    }
+}

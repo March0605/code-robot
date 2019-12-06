@@ -1,0 +1,33 @@
+package ${package}.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+
+/**
+ * @Copyright: ${company} <br/>
+ * @Desc: ${comments}实体 <br/>
+ * @Date: ${datetime} <br/>
+ * @Author: ${author} <br/>
+ */
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ApiModel(value = "${comments}")
+public class ${className} implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    #foreach ($column in $columns)
+    @ApiModelProperty(value = "$column.columnComment")
+        private $column.attrType $column.attrname;
+
+    #end
+
+}

@@ -1,0 +1,97 @@
+package ${package}.impl;
+
+import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.dangdang.ddframe.rdb.sharding.id.generator.IdGenerator;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
+import java.util.Date;
+import java.util.List;
+
+import ${package}.service.${className}Service;
+import ${package}.mapper.${className}Mapper;
+import ${package}.entity.${className};
+
+import com.unicom.park.exceptions.ParkException;
+import com.unicom.park.util.DateUtil;
+import com.unicom.park.util.PageData;
+import com.unicom.park.enums.YesOrNoEnum;
+
+/**
+ * @Copyright: ${company} <br/>
+ * @Desc:  <br/>
+ * @Date: ${datetime} <br/>
+ * @Author: ${author}
+ */
+
+
+@Service
+@Slf4j
+public class ${className}ServiceImpl implements ${className}Service {
+
+    @Autowired
+    ${className}Mapper ${classname}Mapper;
+
+    @Autowired
+    IdGenerator idGenerator;
+
+    @Override
+    public Long add(${className} ${classname}) throws ParkException{
+
+
+        Long id = idGenerator.generateId().longValue();
+        ${classname}.setId(id);
+        ${classname}.setIsDeleted(YesOrNoEnum.NO.getCode());
+        ${classname}.setCreateTime(DateUtil.getNowDate());
+        ${classname}.setCreateUser(null);
+        ${classname}Mapper.insert(${classname});
+        return id;
+    }
+
+    @Override
+    public int update(${className} ${classname}) throws ParkException{
+        ${className} old = detail(${classname}.getId());
+
+
+        old.setUpdateTime(DateUtil.getNowDate());
+        old.setUpdateUser(null);
+        return ${classname}Mapper.updateByPrimaryKey(old);
+    }
+
+    @Override
+    public int delete(Long id) throws ParkException{
+        ${className} old = detail(id);
+
+
+        old.setIsDeleted(YesOrNoEnum.YES.getCode());
+        return ${classname}Mapper.updateByPrimaryKey(old);
+    }
+
+    @Override
+    public ${className} detail(Long id) throws ParkException{
+        ${className} ${classname} = ${classname}Mapper.selectByPrimaryKey(id);
+        if(${classname} == null || YesOrNoEnum.YES.getCode().equals(${classname}.getIsDeleted())){
+            throw new ParkException("对象不存在！");
+        }
+        return ${classname};
+    }
+
+    @Override
+    public PageData queryByPage(JSONObject params, Integer pageNum, Integer pageSize) throws ParkException{
+        Page<Object> pageInformation = PageHelper.startPage(pageNum, pageSize);
+        ${className}Example example = new ${className}Example();
+        ${className}Example.Criteria criteria = example.createCriteria();
+
+
+        criteria.andIsDeletedEqualTo(YesOrNoEnum.NO.getCode());
+        example.setOrderByClause(" create_time desc ");
+        List<${className}> list = ${classname}Mapper.selectByExample(example);
+        PageData pageData = new PageData(pageInformation);
+        pageData.put("list", list);
+        return pageData;
+    }
+
+}

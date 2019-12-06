@@ -1,0 +1,59 @@
+package ${package}.service;
+
+import com.alibaba.fastjson.JSONObject;
+import ${package}.entity.${className};
+
+import com.unicom.park.util.PageData;
+import com.unicom.park.exceptions.ParkException;
+
+
+/**
+ * @Copyright: ${company} <br/>
+ * @Desc:  <br/>
+ * @Date: ${datetime} <br/>
+ * @Author: ${author}
+ */
+public interface ${className}Service {
+
+    /**
+     * 新增
+     * @param ${classname}
+     * @return java.lang.Long
+     * @throws ParkException
+     */
+    Long add(${className} ${classname}) throws ParkException;
+
+    /**
+   * 更新
+   * @param ${classname}
+   * @return int
+   * @throws ParkException
+   */
+    int update(${className} ${classname}) throws ParkException;
+
+    /**
+    * 删除
+    * @param id
+    * @return int
+    * @throws ParkException
+    */
+    int delete(Long id) throws ParkException;
+
+    /**
+    * 详情
+    * @param id
+    * @return int
+    * @throws ParkException
+    */
+    ${className} detail(Long id) throws ParkException;
+
+    /**
+    * 分页查询
+    * @param params
+    * @param pageNum
+    * @param pageSize
+    * @return
+    *@throws ParkException
+    */
+    PageData queryByPage(JSONObject params, Integer pageNum, Integer pageSize) throws ParkException;
+}

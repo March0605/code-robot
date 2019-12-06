@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+   <classPathEntry
+            location="C:\Users\march\.m2\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar"/>
+
+    <context id="my" targetRuntime="MyBatis3">
+        <!--覆盖生成XML文件-->
+        <commentGenerator>
+            <property name="suppressDate" value="false"/><!-- 是否取消注释 -->
+            <property name="suppressAllComments" value="true"/><!-- 是否生成注释代时间戳-->
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/sample?serverTimezone=UTC" userId="root"
+                        password="1111">
+            <property name="useInformationSchema" value="true"></property>
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <!-- 类型转换 -->
+        <javaTypeResolver >
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+        <!-- 生成实体类地址 -->
+        <javaModelGenerator targetPackage="com.march.coderobot.out"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/><!-- 是否在当前路径下新加一层-->
+            <property name="trimStrings" value="true"/><!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+        </javaModelGenerator>
+        <!-- 生成MAPXML文件 -->
+        <sqlMapGenerator targetPackage="com.march.coderobot.out"
+                         targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成DAO -->
+        <javaClientGenerator targetPackage="com.march.coderobot.out"
+                             targetProject="src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+       <table tableName="t_org" domainObjectName="Org"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true" enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true" enableSelectByPrimaryKey="true">
+<!--           <columnOverride column=""  jdbcType="VARCHAR"></columnOverride>-->
+<!--           <columnOverride column=""  jdbcType="VARCHAR"></columnOverride>-->
+        </table>
+
+    </context>
+</generatorConfiguration>
