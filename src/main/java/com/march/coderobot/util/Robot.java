@@ -29,14 +29,12 @@ public class Robot {
         tableMapper = mapper;
     }
 
-    public static byte[] output(String[] tableNames) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    public static void output(String[] tableNames) {
         for(String tableName : tableNames){
             Map<String, String> tableInfo = tableMapper.get(tableName);
             List<Map<String, String>> columns = tableMapper.listColumns(tableName);
             generatorCode(tableInfo, columns);
         }
-        return byteArrayOutputStream.toByteArray();
     }
 
     public static void generatorCode(Map<String, String> tableInfo, List<Map<String, String>> columns) {

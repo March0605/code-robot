@@ -10,7 +10,7 @@ class CodeRobotApplicationTests {
     @Test
     void main() {
         String[] tables = new String[]{"t_org"};
-        byte[] b = Robot.output(tables);
+        Robot.output(tables);
     }
 
 }
